@@ -82,7 +82,8 @@
 
 - (IBAction)addAction:(id)sender
 {
-	[self.taskArray addObject:@"test"];
+    NSString *taskDescription = @"";
+	[self.taskArray insertObject:taskDescription atIndex:0];
     [self.tableView reloadData];
     
 }
