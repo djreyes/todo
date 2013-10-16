@@ -11,9 +11,13 @@
 
 @interface ListViewController ()
 
+@property (strong, nonatomic) NSMutableArray *taskArray;
+
 @end
 
 @implementation ListViewController
+
+@synthesize taskArray;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -29,8 +33,16 @@
 {
     [super viewDidLoad];
     
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"+", @"")
+                                                          style:UIBarButtonItemStylePlain
+                                                          target:self
+                                                          action:@selector(addAction:)];
+	self.navigationItem.rightBarButtonItem = addButton;
+    
     UINib *customNib = [UINib nibWithNibName:@"TaskCell" bundle:nil];
     [self.tableView registerNib:customNib forCellReuseIdentifier:@"TaskCell"];
+    
+    self.taskArray = [NSMutableArray arrayWithObjects:@"Get milk",@"Call mom",nil];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -54,7 +66,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return [self.taskArray count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -63,9 +75,16 @@
     TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.descriptionLabel.text = @"Oh hello";
+    cell.descriptionLabel.text = [self.taskArray objectAtIndex:indexPath.row];
     
     return cell;
+}
+
+- (IBAction)addAction:(id)sender
+{
+	[self.taskArray addObject:@"test"];
+    [self.tableView reloadData];
+    
 }
 
 /*
