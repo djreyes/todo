@@ -75,14 +75,14 @@
     TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.descriptionLabel.text = [self.taskArray objectAtIndex:indexPath.row];
+    cell.descriptionField.text = [self.taskArray objectAtIndex:indexPath.row];
     
     return cell;
 }
 
 - (IBAction)addAction:(id)sender
 {
-    NSString *taskDescription = @"";
+    NSString *taskDescription = @"New Task";
 	[self.taskArray insertObject:taskDescription atIndex:0];
     [self.tableView reloadData];
     

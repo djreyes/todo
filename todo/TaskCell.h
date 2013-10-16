@@ -10,6 +10,6 @@
 
 @interface TaskCell : UITableViewCell
 
-@property (nonatomic, weak) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UITextField *descriptionField;
 
 @end

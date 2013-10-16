@@ -13,17 +13,16 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Task description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uWU-RM-EHd">
-                        <rect key="frame" x="20" y="11" width="280" height="21"/>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" highlighted="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Task description" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X4E-Sn-8aS">
+                        <rect key="frame" x="20" y="7" width="280" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="descriptionLabel" destination="uWU-RM-EHd" id="M1B-nF-Pte"/>
+                <outlet property="descriptionField" destination="X4E-Sn-8aS" id="dTZ-ki-zUx"/>
             </connections>
         </tableViewCell>
     </objects>
