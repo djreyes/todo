@@ -41,8 +41,8 @@
     UINib *customNib = [UINib nibWithNibName:@"TaskCell" bundle:nil];
     [self.tableView registerNib:customNib forCellReuseIdentifier:@"TaskCell"];
     
-    self.taskArray = [NSMutableArray arrayWithObjects:nil];
-//    self.taskArray = [NSMutableArray arrayWithObjects:@"Get milk",@"Call mom",nil];
+//    self.taskArray = [NSMutableArray arrayWithObjects:nil];
+    self.taskArray = [NSMutableArray arrayWithObjects:@"Get milk",@"Call mom",nil];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -110,6 +110,9 @@
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    NSString *movedTaskDescription = [self.taskArray objectAtIndex:fromIndexPath.row];
+    [self.taskArray removeObjectAtIndex:fromIndexPath.row];
+    [self.taskArray insertObject:movedTaskDescription atIndex:toIndexPath.row];
 }
 
 /*
