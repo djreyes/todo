@@ -33,13 +33,15 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAction:)];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTask:)];
 	self.navigationItem.rightBarButtonItem = addButton;
-    
-	self.navigationItem.leftBarButtonItem = self.editButtonItem ;
+	self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
     UINib *customNib = [UINib nibWithNibName:@"TaskCell" bundle:nil];
     [self.tableView registerNib:customNib forCellReuseIdentifier:@"TaskCell"];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
 //    self.taskArray = [NSMutableArray arrayWithObjects:nil];
     self.taskArray = [NSMutableArray arrayWithObjects:@"Get milk",@"Call mom",nil];
@@ -47,8 +49,6 @@
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,11 +76,12 @@
     
     // Configure the cell...
     cell.descriptionField.text = [self.taskArray objectAtIndex:indexPath.row];
+    cell.descriptionField.delegate = self;
     
     return cell;
 }
 
-- (IBAction)addAction:(id)sender
+- (IBAction)addTask:(id)sender
 {
     NSString *taskDescription = @"New task";
 	[self.taskArray insertObject:taskDescription atIndex:0];
@@ -93,6 +94,50 @@
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSLog(@"DID BEGIN");
+    [self setEditing:YES];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSLog(@"DID END");
+    [self setEditing:NO];
+    [self syncDatasource];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
+}
+
+//- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+//{
+//    [super setEditing:editing animated:animated];
+//    if (editing)
+//    {
+//        
+//    }
+//    else
+//    {
+//        [self syncDatasource];
+//    }
+//}
+
+- (void)syncDatasource
+{
+    NSLog(@"SYNC DATA");
+    for(int i=0; i < [self.taskArray count]; i++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        TaskCell *cell = (TaskCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+        [self.taskArray replaceObjectAtIndex:i withObject:cell.descriptionField.text];
+    }
+}
+
 
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
