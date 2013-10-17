@@ -15,7 +15,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-//        self.descriptionLabel.delegate = self;
+        self.descriptionField.delegate = self;
     }
     return self;
 }

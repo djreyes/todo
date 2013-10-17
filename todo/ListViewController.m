@@ -33,16 +33,16 @@
 {
     [super viewDidLoad];
     
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"+", @"")
-                                                          style:UIBarButtonItemStylePlain
-                                                          target:self
-                                                          action:@selector(addAction:)];
+    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAction:)];
 	self.navigationItem.rightBarButtonItem = addButton;
+    
+	self.navigationItem.leftBarButtonItem = self.editButtonItem ;
     
     UINib *customNib = [UINib nibWithNibName:@"TaskCell" bundle:nil];
     [self.tableView registerNib:customNib forCellReuseIdentifier:@"TaskCell"];
     
-    self.taskArray = [NSMutableArray arrayWithObjects:@"Get milk",@"Call mom",nil];
+    self.taskArray = [NSMutableArray arrayWithObjects:nil];
+//    self.taskArray = [NSMutableArray arrayWithObjects:@"Get milk",@"Call mom",nil];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -82,10 +82,9 @@
 
 - (IBAction)addAction:(id)sender
 {
-    NSString *taskDescription = @"New Task";
+    NSString *taskDescription = @"New task";
 	[self.taskArray insertObject:taskDescription atIndex:0];
     [self.tableView reloadData];
-    
 }
 
 // Override to support conditional editing of the table view.
@@ -108,12 +107,10 @@
     }   
 }
 
-/*
 // Override to support rearranging the table view.
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
 }
-*/
 
 /*
 // Override to support conditional rearranging of the table view.

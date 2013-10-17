@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TaskCell : UITableViewCell
+@interface TaskCell : UITableViewCell <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *descriptionField;
 
