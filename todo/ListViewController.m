@@ -75,6 +75,7 @@
     TaskCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+    cell.descriptionField.tag = indexPath.row;
     cell.descriptionField.text = [self.taskArray objectAtIndex:indexPath.row];
     cell.descriptionField.delegate = self;
     
@@ -97,45 +98,20 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    NSLog(@"DID BEGIN");
     [self setEditing:YES];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    NSLog(@"DID END");
+    NSLog(@"%ld", (long)[textField tag]);
+    [self.taskArray replaceObjectAtIndex:[textField tag] withObject:[textField text]];
     [self setEditing:NO];
-    [self syncDatasource];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
     return NO;
-}
-
-//- (void)setEditing:(BOOL)editing animated:(BOOL)animated
-//{
-//    [super setEditing:editing animated:animated];
-//    if (editing)
-//    {
-//        
-//    }
-//    else
-//    {
-//        [self syncDatasource];
-//    }
-//}
-
-- (void)syncDatasource
-{
-    NSLog(@"SYNC DATA");
-    for(int i=0; i < [self.taskArray count]; i++) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-        TaskCell *cell = (TaskCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-        
-        [self.taskArray replaceObjectAtIndex:i withObject:cell.descriptionField.text];
-    }
 }
 
 
