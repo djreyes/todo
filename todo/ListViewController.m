@@ -12,6 +12,7 @@
 @interface ListViewController ()
 
 @property (strong, nonatomic) NSMutableArray *taskArray;
+@property (strong, nonatomic) NSUserDefaults *userDefaults;
 
 @end
 
@@ -43,8 +44,14 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-//    self.taskArray = [NSMutableArray arrayWithObjects:nil];
-    self.taskArray = [NSMutableArray arrayWithObjects:@"Get milk",@"Call mom",nil];
+    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"savedTasks"]);
+    
+    self.userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *savedTasks = [self.userDefaults objectForKey:@"savedTasks"];
+    if (savedTasks != nil)
+        self.taskArray = [[NSMutableArray alloc] initWithArray:savedTasks];
+    else
+        self.taskArray = [[NSMutableArray alloc] init];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -82,10 +89,17 @@
     return cell;
 }
 
+- (void)saveTasks
+{
+    [self.userDefaults setObject:self.taskArray forKey:@"savedTasks"];
+    [self.userDefaults synchronize];
+}
+
 - (IBAction)addTask:(id)sender
 {
     NSString *taskDescription = @"New task";
 	[self.taskArray insertObject:taskDescription atIndex:0];
+    [self saveTasks];
     [self.tableView reloadData];
 }
 
@@ -103,9 +117,11 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    NSLog(@"%ld", (long)[textField tag]);
+    NSLog(@"ending editing");
     [self.taskArray replaceObjectAtIndex:[textField tag] withObject:[textField text]];
     [self setEditing:NO];
+    [self saveTasks];
+    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"savedTasks"]);
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -122,6 +138,7 @@
         // Delete the row from the data source
         [self.taskArray removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self saveTasks];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -134,6 +151,7 @@
     NSString *movedTaskDescription = [self.taskArray objectAtIndex:fromIndexPath.row];
     [self.taskArray removeObjectAtIndex:fromIndexPath.row];
     [self.taskArray insertObject:movedTaskDescription atIndex:toIndexPath.row];
+    [self saveTasks];
 }
 
 /*
