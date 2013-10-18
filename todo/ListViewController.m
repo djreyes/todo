@@ -44,8 +44,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"savedTasks"]);
-    
     self.userDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *savedTasks = [self.userDefaults objectForKey:@"savedTasks"];
     if (savedTasks != nil)
@@ -117,11 +115,9 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    NSLog(@"ending editing");
     [self.taskArray replaceObjectAtIndex:[textField tag] withObject:[textField text]];
     [self setEditing:NO];
     [self saveTasks];
-    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"savedTasks"]);
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
